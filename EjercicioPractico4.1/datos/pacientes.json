@@ -1,0 +1,15 @@
+[
+    {
+      "id": 1,
+      "nombre": "Juan Pérez",
+      "edad": 40,
+      "recetas": [1, 2]
+    },
+    {
+      "id": 2,
+      "nombre": "Ana López",
+      "edad": 35,
+      "recetas": [3]
+    }
+  ]
+  

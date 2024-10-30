@@ -1,0 +1,18 @@
+[
+    {
+      "id": 1,
+      "descripcion": "Paracetamol 500mg",
+      "fecha": "2024-10-01"
+    },
+    {
+      "id": 2,
+      "descripcion": "Ibuprofeno 200mg",
+      "fecha": "2024-10-05"
+    },
+    {
+      "id": 3,
+      "descripcion": "Amoxicilina 500mg",
+      "fecha": "2024-10-10"
+    }
+  ]
+  

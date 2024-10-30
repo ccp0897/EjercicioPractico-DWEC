@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta Médica</title>
+  <link rel="stylesheet" href="./css/estilos.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Barra de navegación lateral -->
+    <nav class="sidebar">
+      <h2>Pacientes</h2>
+      <ul id="lista-pacientes"></ul>
+      <button id="btn-nuevo-paciente">Nuevo Paciente</button>
+      <button id="btn-nueva-receta">Nueva Receta</button>
+    </nav>
+
+    <!-- Área principal -->
+    <main class="main-content">
+      <h2 id="nombre-paciente-seleccionado">Recetas del Paciente</h2>
+      <!-- Área de recetas del paciente, con "drop" habilitado -->
+      <ul id="lista-recetas" ondrop="handleDrop(event)" ondragover="allowDrop(event)"></ul>
+      
+      <!-- Formularios para nuevos pacientes y recetas (ocultos) -->
+      <section id="formulario-paciente" class="formulario oculto">
+        <h3>Nuevo Paciente</h3>
+        <form id="form-paciente">
+          <input type="text" id="nombre-paciente" placeholder="Nombre" required>
+          <input type="number" id="edad-paciente" placeholder="Edad" required>
+          <button type="submit">Añadir Paciente</button>
+        </form>
+      </section>
+
+      <section id="formulario-receta" class="formulario oculto">
+        <h3>Nueva Receta</h3>
+        <form id="form-receta">
+          <input type="text" id="descripcion-receta" placeholder="Descripción" required>
+          <input type="date" id="fecha-receta" required>
+          <button type="submit">Añadir Receta</button>
+        </form>
+      </section>
+
+      <!-- Área de recetas disponibles para Drag & Drop -->
+      <h3>Recetas Disponibles</h3>
+      <ul id="recetas-disponibles" class="draggable-list"></ul>
+    </main>
+  </div>
+  <script src="./js/app.js"></script>
+</body>
+</html>

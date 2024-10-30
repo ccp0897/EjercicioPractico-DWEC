@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    display: flex;
+    width: 100%;
+  }
+  
+  .sidebar {
+    background-color: #2e3b4e;
+    color: rgb(159, 36, 220);
+    padding: 15px;
+    width: 250px;
+  }
+  
+  .sidebar h2, .main-content h2 {
+    margin: 0 0 10px;
+  }
+  
+  button {
+    background-color: #2196f3;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    background-color: #f4f4f9;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    margin: 5px 0;
+    padding: 10px;
+  }
+  
+  ul.draggable-list li {
+    background-color: #e3f2fd;
+    border: 1px dashed #2196f3;
+    cursor: move;
+  }
+  
+  .formulario {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-top: 15px;
+    padding: 15px;
+  }
+  
+  .oculto {
+    display: none;
+  }
+  /* Estilos para el área de drop */
+ul#lista-recetas {
+  border: 2px dashed #2196f3;
+  padding: 10px;
+}
