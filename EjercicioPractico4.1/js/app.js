@@ -9,7 +9,9 @@ let lista_recetas = []; //Array para almacenar las recetas
 const nuevoPacienteBtn = document.querySelector('#btn-nuevo-paciente');
 const nuevaRecetaBtn = document.querySelector('#btn-nueva-receta');
 const anadirPaciente = document.querySelector('#form-paciente > button');
-const anadirReceta = document.querySelector('#formulario-receta > button');
+const anadirReceta = document.querySelector('#form-receta > button');
+const pacientes = document.querySelector('#lista-pacientes');
+let pacienteSeleccionado = null;
 
 //Crear eventos de la pagina
 document.addEventListener('DOMContentLoaded', cargarPacientes);
@@ -49,13 +51,13 @@ anadirPaciente.addEventListener('click', (e) =>{
     const edad = document.querySelector('#edad-paciente');
     const paciente = {
         'id': lista_pacientes.length + 1,
-        'nombre': nombre.textContent,
-        'edad': edad.textContent,
+        'nombre': nombre.value,
+        'edad': edad.value,
         'recetas': undefined
     }
     lista_pacientes = [...lista_pacientes, paciente];
     console.log(paciente.id);
-    limpiarHTML();
+    limpiarHTMLPacientes();
     agregarHTMLPacientes();
     const formularioPaciente = document.querySelector('#formulario-paciente');
     formularioPaciente.classList.add('oculto');
@@ -63,7 +65,49 @@ anadirPaciente.addEventListener('click', (e) =>{
 
 })
 
-//------------------------------- FUNCIONES -------------------------------------------------------------------
+anadirReceta.addEventListener('click', (e) => {
+    e.preventDefault();
+    const descripcion = document.querySelector('#descripcion-receta');
+    const fecha = document.querySelector('#fecha-receta');
+    const receta = {
+        'id': lista_recetas.length + 1,
+        'descripcion': descripcion.value,
+        'fecha': fecha.value
+    }
+    lista_recetas = [...lista_recetas, receta];
+    limpiarHTMLRecetas();
+    agregarHTMLRecetas();
+    const formularioReceta = document.querySelector('#formulario-receta');
+    formularioReceta.classList.add('oculto');
+    alert('Receta añadida correctamente');
+})
+/*
+    Pinchar en el usuario y que muestre todas sus recetas, junto con nombre y edad
+*/
+pacientes.addEventListener('click', (e) => {
+    console.log();
+    pacienteSeleccionado = lista_pacientes.filter(paciente =>paciente.nombre == e.target.textContent.trim().split(',')[0] && paciente.id == e.target.getAttribute("data-id"));
+    seleccionarRecetas(pacienteSeleccionado[0]);
+
+})
+
+function  seleccionarRecetas(p){
+    limpiarHTMLRecetasPaciente();
+    p.recetas.forEach(elemento =>{
+        let html = "";
+        let recetaSeleccionada = lista_recetas.find(receta => receta.id == elemento);
+        
+        console.log(recetaSeleccionada);
+        const liSeleccionado = document.createElement('li');
+        const titulo = document.querySelector('#nombre-paciente-seleccionado');
+        titulo.textContent = `Paciente ${p.nombre} - ${p.edad} años`;
+        html = `${recetaSeleccionada.descripcion} - ${recetaSeleccionada.fecha}`;
+        liSeleccionado.innerHTML = html;
+        const listaRecetasPaciente = document.querySelector('#lista-recetas');
+        listaRecetasPaciente.appendChild(liSeleccionado);
+    })
+}
+//------------------------------- FUNCIONES ASINCRONAS -------------------------------------------------------------------
 
 /* 
     Esta funcion se encarga de hacer un fetch de pacientes
@@ -139,10 +183,11 @@ function agregarHTMLPacientes(){
 
     lista_pacientes.forEach(paciente => {
         html_code = `
-            ${paciente.nombre}
+            ${paciente.nombre}, ${paciente.edad}
         `;
         const li = document.createElement('li');
         li.innerHTML = html_code;
+        li.setAttribute("data-id", paciente.id);
         contenido.appendChild(li);
     })
 }
@@ -158,10 +203,13 @@ function agregarHTMLRecetas(){
 
     lista_recetas.forEach(receta => {
         html_code = `
-            ${receta.descripcion}
+            ${receta.descripcion} - ${receta.fecha}
         `;
         const li = document.createElement('li');
         li.innerHTML = html_code;
+        li.setAttribute('draggable', "true");
+        li.setAttribute('ondragstart', "drag(event)")
+        li.setAttribute("data-id", receta.id);
         contenido.appendChild(li);
     })
 }
@@ -172,9 +220,49 @@ function agregarHTMLRecetas(){
     Funcion para limpiar el HTML
 */
 
-function limpiarHTML(){
+function limpiarHTMLPacientes(){
     const contenedorPacientes = document.querySelector('#lista-pacientes');
     while(contenedorPacientes.firstChild){
         contenedorPacientes.removeChild(contenedorPacientes.firstChild);
     }
+}
+function limpiarHTMLRecetas(){
+    const contenedorRecetas = document.querySelector('#recetas-disponibles');
+    while(contenedorRecetas.firstChild){
+        contenedorRecetas.removeChild(contenedorRecetas.firstChild);
+    }
+}
+function limpiarHTMLRecetasPaciente(){
+    const contenedorRecetasPaciente = document.querySelector('#lista-recetas');
+    while(contenedorRecetasPaciente.firstChild){
+        contenedorRecetasPaciente.removeChild(contenedorRecetasPaciente.firstChild);
+    }
+}
+
+/*
+ *  DRAG AND DROP 
+ */
+
+function allowDrop(e) {
+    e.preventDefault();
+}
+
+function drag(e) {
+    e.dataTransfer.setData("text", e.target.getAttribute('data-id'));
+    
+  }
+
+function handleDrop(e) {
+    e.preventDefault();
+    console.log(pacienteSeleccionado[0]);
+    const IdReceta = parseInt(e.dataTransfer.getData("text"));
+    const recetaObj = lista_recetas.find(r => r.id === IdReceta);
+    console.log(IdReceta);
+
+    if (recetaObj && pacienteSeleccionado[0] && !pacienteSeleccionado[0].recetas.includes(IdReceta)){
+        pacienteSeleccionado[0].recetas.push(IdReceta);
+        console.log(pacienteSeleccionado[0]);
+        seleccionarRecetas(pacienteSeleccionado[0]);
+    }
+
 }
