@@ -246,12 +246,12 @@ function limpiarHTMLRecetasPaciente(){
 function allowDrop(e) {
     e.preventDefault();
 }
-
+//Coger el elemento por el atributo de data-id que se le da cuendo se crea cada li
 function drag(e) {
     e.dataTransfer.setData("text", e.target.getAttribute('data-id'));
     
-  }
-
+}
+//Para manejar el drop me quedo con el id leido, encuentro la receta, hago un pushh a la lista y lo pinto
 function handleDrop(e) {
     e.preventDefault();
     console.log(pacienteSeleccionado[0]);
